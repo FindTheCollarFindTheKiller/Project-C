@@ -1,0 +1,24 @@
+# Optional add-ons for high-end local episode production (24+ GB VRAM)
+# Base runtime dependencies are in requirements.txt
+
+# Story/LLM serving helpers
+vllm>=0.6.3
+llama-cpp-python>=0.3.1
+
+# Voice / TTS
+TTS>=0.22.0
+
+# Music / SFX generation
+audiocraft>=1.3.0
+librosa>=0.10.2
+soundfile>=0.12.1
+
+# Video/audio post-processing and orchestration
+moviepy>=1.0.3
+ffmpeg-python>=0.2.0
+
+# Lip-sync and vision helpers
+opencv-python>=4.10.0.84
+
+# HF model tooling
+huggingface-hub>=0.24.0

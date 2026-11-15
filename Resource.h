@@ -9,10 +9,19 @@
 #define IDD_ABOUTBOX			103
 #define IDM_ABOUT				104
 #define IDM_EXIT				105
+#define IDM_GENERATE_SCENE_OUTLINE 106
+#define IDM_SETUP_GUIDE      107
 #define IDI_PROJECTC			107
 #define IDI_SMALL				108
 #define IDC_PROJECTC			109
 #define IDC_MYICON				2
+#define IDC_SCRIPT_INPUT      1001
+#define IDC_PROVIDER_COMBO    1002
+#define IDC_TASK_COMBO        1003
+#define IDC_MODEL_INPUT       1004
+#define IDC_GENERATE_BUTTON   1005
+#define IDC_OUTPUT_VIEW       1006
+#define IDC_STATUS_LABEL      1007
 #ifndef IDC_STATIC
 #define IDC_STATIC				-1
 #endif
@@ -23,7 +32,7 @@
 
 #define _APS_NO_MFC					130
 #define _APS_NEXT_RESOURCE_VALUE	129
-#define _APS_NEXT_COMMAND_VALUE		32771
+#define _APS_NEXT_COMMAND_VALUE		32772
 #define _APS_NEXT_CONTROL_VALUE		1000
 #define _APS_NEXT_SYMED_VALUE		110
 #endif

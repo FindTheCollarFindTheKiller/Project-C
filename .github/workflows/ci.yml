@@ -1,0 +1,66 @@
+name: strict-ci-validation
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  validate-build-test-publish:
+    runs-on: windows-latest
+    env:
+      CONFIGURATION: Release
+      RUNTIME: win-x64
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Prepare artifact folders
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Path artifacts/logs -Force | Out-Null
+          New-Item -ItemType Directory -Path artifacts/test-results -Force | Out-Null
+          New-Item -ItemType Directory -Path artifacts/publish -Force | Out-Null
+
+      - name: Restore (detailed)
+        shell: pwsh
+        run: |
+          dotnet restore EpisodeStudio.slnx --verbosity detailed 2>&1 | Tee-Object -FilePath artifacts/logs/restore.log
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Build (detailed)
+        shell: pwsh
+        run: |
+          dotnet build EpisodeStudio.slnx --configuration $env:CONFIGURATION --no-restore --verbosity detailed 2>&1 | Tee-Object -FilePath artifacts/logs/build.log
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Test (detailed + TRX)
+        shell: pwsh
+        run: |
+          dotnet test tests/EpisodeStudio.Tests/EpisodeStudio.Tests.csproj --configuration $env:CONFIGURATION --no-build --logger "trx;LogFileName=EpisodeStudio.Tests.trx" --results-directory artifacts/test-results --verbosity detailed 2>&1 | Tee-Object -FilePath artifacts/logs/test.log
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Publish desktop app (detailed)
+        shell: pwsh
+        run: |
+          dotnet publish src/EpisodeStudio.Desktop/EpisodeStudio.Desktop.csproj --configuration $env:CONFIGURATION --runtime $env:RUNTIME --self-contained true /p:PublishSingleFile=true --output artifacts/publish --verbosity detailed 2>&1 | Tee-Object -FilePath artifacts/logs/publish.log
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Upload diagnostics and outputs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ci-diagnostics-${{ github.run_id }}
+          if-no-files-found: warn
+          retention-days: 14
+          path: |
+            artifacts/logs/**/*.log
+            artifacts/test-results/**/*.trx
+            artifacts/publish/**

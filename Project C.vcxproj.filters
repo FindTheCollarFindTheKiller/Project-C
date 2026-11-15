@@ -46,4 +46,38 @@
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="docs\MVP_PRODUCT_SPEC.md" />
+    <None Include=".github\workflows\ci.yml" />
+    <None Include="src\EpisodeStudio.Core\Contracts\GenerationContracts.cs" />
+    <None Include="src\EpisodeStudio.Core\Domain\PolicyProfile.cs" />
+    <None Include="src\EpisodeStudio.Core\Domain\ProjectModel.cs" />
+    <None Include="src\EpisodeStudio.Core\Domain\RenderJob.cs" />
+    <None Include="src\EpisodeStudio.Pipeline\Orchestration\IPipelineStageExecutor.cs" />
+    <None Include="src\EpisodeStudio.Pipeline\Orchestration\RenderPipelineOrchestrator.cs" />
+    <None Include="src\EpisodeStudio.Pipeline\Orchestration\InMemoryRenderJobStateStore.cs" />
+    <None Include="src\EpisodeStudio.Pipeline\Orchestration\PipelineExecutionContext.cs" />
+    <None Include="src\EpisodeStudio.Providers\ProviderDescriptor.cs" />
+    <None Include="src\EpisodeStudio.Providers\Providers\LocalGenerationProvider.cs" />
+    <None Include="src\EpisodeStudio.Providers\GenerationProviderRouter.cs" />
+    <None Include="src\EpisodeStudio.Infrastructure\Security\ApiKeyStore.cs" />
+    <None Include="src\EpisodeStudio.Providers\Providers\CloudGenerationProvider.cs" />
+    <None Include="src\EpisodeStudio.Infrastructure\Logging\AuditLogger.cs" />
+    <None Include="src\EpisodeStudio.Core\Policy\PolicyEngine.cs" />
+    <None Include="src\EpisodeStudio.Core\Policy\PolicyEvaluation.cs" />
+    <None Include="src\EpisodeStudio.Core\Domain\TimelineModel.cs" />
+    <None Include="src\EpisodeStudio.Pipeline\Media\FfmpegCompositor.cs" />
+    <None Include="src\EpisodeStudio.Core\Persistence\PersistenceContracts.cs" />
+    <None Include="src\EpisodeStudio.Infrastructure\Persistence\SqliteProjectRepository.cs" />
+    <None Include="src\EpisodeStudio.Infrastructure\Persistence\FileAssetCache.cs" />
+    <None Include="src\EpisodeStudio.Infrastructure\Observability\JsonLineStructuredLogger.cs" />
+    <None Include="src\EpisodeStudio.Core\Observability\ObservabilityContracts.cs" />
+    <None Include="src\EpisodeStudio.Infrastructure\Observability\InMemoryJobMetricsStore.cs" />
+    <None Include="src\EpisodeStudio.Infrastructure\Observability\InMemoryUsageTracker.cs" />
+    <None Include="scripts\publish-mvp.ps1" />
+    <None Include="src\EpisodeStudio.Desktop\appsettings.template.json" />
+    <None Include="docs\RELEASE_CHECKLIST.md" />
+    <None Include="docs\PILOT_VALIDATION_PLAN.md" />
+    <None Include=".env" />
+  </ItemGroup>
 </Project>

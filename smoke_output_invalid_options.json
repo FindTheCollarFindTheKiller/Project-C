@@ -1,0 +1,1 @@
+{"success": false, "output": "", "error": "ValueError: 'options' must be a JSON object when provided.", "trace": "Traceback (most recent call last):\n  File \"C:\\Users\\matpa\\source\\repos\\Project C\\local_hf_runner.py\", line 249, in main\n    raise ValueError(\"'options' must be a JSON object when provided.\")\nValueError: 'options' must be a JSON object when provided.\n"}

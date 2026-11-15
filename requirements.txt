@@ -1,0 +1,9 @@
+torch
+transformers>=4.46.0
+sentence-transformers>=3.1.1
+diffusers>=0.30.0
+accelerate>=0.34.0
+imageio>=2.34.0
+imageio-ffmpeg>=0.5.1
+numpy>=1.26.0
+scipy>=1.13.0

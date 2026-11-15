@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/EpisodeStudio.Core/EpisodeStudio.Core.csproj" />
+    <Project Path="src/EpisodeStudio.Desktop/EpisodeStudio.Desktop.csproj" />
+    <Project Path="src/EpisodeStudio.Infrastructure/EpisodeStudio.Infrastructure.csproj" />
+    <Project Path="src/EpisodeStudio.Pipeline/EpisodeStudio.Pipeline.csproj" />
+    <Project Path="src/EpisodeStudio.Providers/EpisodeStudio.Providers.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/EpisodeStudio.Tests/EpisodeStudio.Tests.csproj" />
+  </Folder>
+</Solution>

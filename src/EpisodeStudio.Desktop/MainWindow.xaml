@@ -1,0 +1,356 @@
+﻿<Window x:Class="EpisodeStudio.Desktop.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EpisodeStudio.Desktop"
+        mc:Ignorable="d"
+        Title="EpisodeStudio MVP" Height="760" Width="1200" MinHeight="700" MinWidth="1000"
+        WindowStartupLocation="CenterScreen">
+    <Grid Margin="12">
+        <Grid.Resources>
+            <Style TargetType="Button">
+                <Setter Property="MinHeight" Value="30" />
+                <Setter Property="Padding" Value="10,4" />
+            </Style>
+            <Style TargetType="TextBlock">
+                <Setter Property="VerticalAlignment" Value="Center" />
+            </Style>
+        </Grid.Resources>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Border Background="#F5F7FB" BorderBrush="#D9E2F0" BorderThickness="1" CornerRadius="8" Padding="12" Margin="0,0,0,10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel>
+                    <TextBlock Text="EpisodeStudio" FontSize="24" FontWeight="SemiBold" />
+                    <TextBlock Text="Plan, generate, and export episodes with a guided workflow." Foreground="#4A5568" Margin="0,2,0,0" />
+                </StackPanel>
+                <Border Grid.Column="1" Background="#EDF2FF" CornerRadius="6" Padding="10,6" VerticalAlignment="Center">
+                    <StackPanel>
+                        <TextBlock Text="Scene Summary" FontSize="12" Foreground="#4A5568" />
+                        <TextBlock Text="{Binding SceneSummary}" FontWeight="SemiBold" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Border>
+
+        <Border Grid.Row="1" Background="#FAFBFF" BorderBrush="#E3E8F3" BorderThickness="1" CornerRadius="6" Padding="10" Margin="0,0,0,10">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Project: " FontWeight="SemiBold" />
+                <TextBlock Text="{Binding ProjectName}" Margin="0,0,20,0" />
+                <TextBlock Text="Budget: " FontWeight="SemiBold" />
+                <TextBlock Text="{Binding BudgetUsd, StringFormat='${0}'}" Margin="0,0,20,0" />
+                <TextBlock Text="Script size: " FontWeight="SemiBold" />
+                <TextBlock Text="{Binding ScriptStats}" />
+            </StackPanel>
+        </Border>
+
+        <TabControl Grid.Row="2">
+            <TabItem Header="Project Setup">
+                <Grid Margin="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="3*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Text="Project Name" Margin="0,0,0,4" />
+                    <TextBox Grid.Row="1" Margin="0,0,10,10" Text="{Binding ProjectName, UpdateSourceTrigger=PropertyChanged}" />
+
+                    <TextBlock Grid.Row="2" Text="Cloud Budget (USD)" Margin="0,0,0,4" />
+                    <TextBox Grid.Row="3" Margin="0,0,10,10" Text="{Binding BudgetUsd, UpdateSourceTrigger=PropertyChanged}" />
+
+                    <TextBlock Grid.Row="4" Text="Policy Profile" Margin="0,0,0,4" />
+                    <ComboBox Grid.Row="5" Margin="0,0,10,0" SelectedIndex="0">
+                        <ComboBoxItem Content="Strict" />
+                        <ComboBoxItem Content="Moderate" />
+                        <ComboBoxItem Content="Configurable" />
+                    </ComboBox>
+
+                    <StackPanel Grid.Column="1" Grid.Row="0" Grid.RowSpan="6">
+                        <TextBlock Text="Provider Routing" FontWeight="SemiBold" Margin="0,0,0,6" />
+                        <CheckBox Content="Enable Cloud Provider (High quality)" IsChecked="True" Margin="0,0,0,6" />
+                        <CheckBox Content="Enable Local Provider (Fallback/preprocessing)" IsChecked="True" Margin="0,0,0,6" />
+                        <TextBlock Text="Primary Provider" Margin="0,10,0,4" />
+                        <ComboBox SelectedIndex="0" Margin="0,0,0,10">
+                            <ComboBoxItem Content="Cloud" />
+                            <ComboBoxItem Content="Local" />
+                            <ComboBoxItem Content="Auto" />
+                        </ComboBox>
+                        <TextBlock Text="Allowed Models (comma separated)" Margin="0,0,0,4" />
+                        <TextBox Height="72" TextWrapping="Wrap" AcceptsReturn="True" Text="gpt-video-1,tts-pro-1,storyboard-v2" />
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Script Input">
+                <Grid Margin="12">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <StackPanel>
+                        <TextBlock Text="Paste screenplay or episode script" FontWeight="SemiBold" />
+                        <TextBlock Text="Tip: add scene headings (INT./EXT.) for cleaner scene extraction." Foreground="#4A5568" Margin="0,2,0,8" />
+                    </StackPanel>
+
+                    <TextBox Grid.Row="1" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap"
+                             Text="{Binding ScriptText, UpdateSourceTrigger=PropertyChanged}" />
+
+                    <Grid Grid.Row="2" Margin="0,8,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="{Binding ScriptStats}" Foreground="#4A5568" VerticalAlignment="Center" />
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button Content="Generate Scene Plan" Width="170" Margin="0,0,8,0" Click="GenerateScenePlan_Click"
+                                    IsEnabled="{Binding CanGenerateScenePlan}" ToolTip="Generate a scene list from the current script." />
+                            <Button Content="Clear" Width="90" Click="ClearScript_Click" ToolTip="Clear script text." />
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Scene Review">
+                <Grid Margin="12">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="{Binding SceneSummary}" FontWeight="SemiBold" Margin="0,0,0,8" />
+
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding Scenes}" AutoGenerateColumns="False" CanUserAddRows="False"
+                              AlternatingRowBackground="#F8FAFD" HeadersVisibility="Column">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="#" Binding="{Binding Sequence}" Width="60" />
+                            <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="200" />
+                            <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="*" />
+                            <DataGridTextColumn Header="Shots" Binding="{Binding ShotCount}" Width="80" />
+                            <DataGridTextColumn Header="Duration (s)" Binding="{Binding DurationSeconds}" Width="110" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,8,0,0">
+                        <Button Content="Add Scene" Width="100" Margin="0,0,8,0" Click="AddScene_Click" ToolTip="Add a blank scene row." />
+                        <Button Content="Generate Storyboards" Width="170" Click="GenerateStoryboard_Click"
+                                IsEnabled="{Binding CanStartGeneration}" ToolTip="Create storyboard prompts from reviewed scenes." />
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Voice &amp; Style">
+                <Grid Margin="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="3*" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Margin="0,0,12,0">
+                        <TextBlock Text="Narration Voice" />
+                        <ComboBox SelectedIndex="0" Margin="0,4,0,10">
+                            <ComboBoxItem Content="Alloy" />
+                            <ComboBoxItem Content="Nova" />
+                            <ComboBoxItem Content="Aria" />
+                        </ComboBox>
+
+                        <TextBlock Text="Language" />
+                        <ComboBox SelectedIndex="0" Margin="0,4,0,10">
+                            <ComboBoxItem Content="en-US" />
+                            <ComboBoxItem Content="en-GB" />
+                            <ComboBoxItem Content="es-ES" />
+                        </ComboBox>
+
+                        <TextBlock Text="Music Style" />
+                        <ComboBox SelectedIndex="0" Margin="0,4,0,10">
+                            <ComboBoxItem Content="Cinematic" />
+                            <ComboBoxItem Content="Ambient" />
+                            <ComboBoxItem Content="Trailer" />
+                        </ComboBox>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1">
+                        <TextBlock Text="Voice Direction" />
+                        <TextBox Height="90" AcceptsReturn="True" TextWrapping="Wrap" Margin="0,4,0,10" Text="Warm and dramatic with clear pacing." />
+                        <TextBlock Text="Visual Style Prompt" />
+                        <TextBox Height="90" AcceptsReturn="True" TextWrapping="Wrap" Margin="0,4,0,10" Text="High-contrast cinematic lighting, wide establishing shots, realistic texture." />
+
+                        <Border Background="#F8FAFD" BorderBrush="#E3E8F3" BorderThickness="1" CornerRadius="6" Padding="10" Margin="0,0,0,10">
+                            <StackPanel>
+                                <TextBlock Text="Local Video Runtime (RAM Offload)" FontWeight="SemiBold" />
+                                <TextBlock Text="Matches local_hf_runner.py options for script_to_video." Foreground="#4A5568" Margin="0,2,0,8" />
+
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+
+                                    <StackPanel Margin="0,0,8,8">
+                                        <TextBlock Text="Model" />
+                                        <TextBox Margin="0,4,0,0" Text="{Binding VideoModel, UpdateSourceTrigger=PropertyChanged}" />
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Column="1" Margin="8,0,0,8">
+                                        <TextBlock Text="Offload Mode" />
+                                        <ComboBox Margin="0,4,0,0" ItemsSource="{Binding OffloadModes}" SelectedItem="{Binding OffloadMode, UpdateSourceTrigger=PropertyChanged}" />
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Row="1" Margin="0,0,8,8">
+                                        <TextBlock Text="Precision" />
+                                        <ComboBox Margin="0,4,0,0" ItemsSource="{Binding PrecisionModes}" SelectedItem="{Binding Precision, UpdateSourceTrigger=PropertyChanged}" />
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Row="1" Grid.Column="1" Margin="8,0,0,8">
+                                        <TextBlock Text="Seed (optional)" />
+                                        <TextBox Margin="0,4,0,0" Text="{Binding Seed, UpdateSourceTrigger=PropertyChanged}" />
+                                    </StackPanel>
+
+                                    <UniformGrid Grid.Row="2" Grid.ColumnSpan="2" Columns="6" Margin="0,0,0,8">
+                                        <StackPanel Margin="0,0,6,0">
+                                            <TextBlock Text="Width" />
+                                            <TextBox Margin="0,4,0,0" Text="{Binding VideoWidth, UpdateSourceTrigger=PropertyChanged}" />
+                                        </StackPanel>
+                                        <StackPanel Margin="0,0,6,0">
+                                            <TextBlock Text="Height" />
+                                            <TextBox Margin="0,4,0,0" Text="{Binding VideoHeight, UpdateSourceTrigger=PropertyChanged}" />
+                                        </StackPanel>
+                                        <StackPanel Margin="0,0,6,0">
+                                            <TextBlock Text="Frames" />
+                                            <TextBox Margin="0,4,0,0" Text="{Binding NumFrames, UpdateSourceTrigger=PropertyChanged}" />
+                                        </StackPanel>
+                                        <StackPanel Margin="0,0,6,0">
+                                            <TextBlock Text="Steps" />
+                                            <TextBox Margin="0,4,0,0" Text="{Binding InferenceSteps, UpdateSourceTrigger=PropertyChanged}" />
+                                        </StackPanel>
+                                        <StackPanel Margin="0,0,6,0">
+                                            <TextBlock Text="Guidance" />
+                                            <TextBox Margin="0,4,0,0" Text="{Binding GuidanceScale, UpdateSourceTrigger=PropertyChanged}" />
+                                        </StackPanel>
+                                        <StackPanel>
+                                            <TextBlock Text="FPS" />
+                                            <TextBox Margin="0,4,0,0" Text="{Binding Fps, UpdateSourceTrigger=PropertyChanged}" />
+                                        </StackPanel>
+                                    </UniformGrid>
+
+                                    <TextBlock Text="{Binding VideoConfigSummary}" Foreground="#4A5568" />
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button Content="Reset Video Defaults" Width="150" Margin="0,0,8,0" Click="ResetVideoSettings_Click" />
+                            <Button Content="Generate Voice Tracks" Width="160" Click="GenerateVoice_Click" />
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Generation Progress">
+                <Grid Margin="12">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="Pipeline Status" FontWeight="SemiBold" />
+                    <Grid Grid.Row="1" Margin="0,6,0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <ProgressBar Height="20" Minimum="0" Maximum="100" Value="{Binding PipelineProgress}" />
+                        <TextBlock Grid.Column="1" Text="{Binding PipelineProgressText}" Margin="10,0,0,0" FontWeight="SemiBold" />
+                    </Grid>
+                    <ListBox Grid.Row="2" ItemsSource="{Binding ProgressLog}" />
+                    <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,8,0,0">
+                        <Button Content="Start Full Generation" Width="170" Margin="0,0,8,0" Click="StartGeneration_Click"
+                                IsEnabled="{Binding CanStartGeneration}" ToolTip="Run timeline compose and render pipeline." />
+                        <Button Content="Retry Failed Stage" Width="150" Click="RetryStage_Click" ToolTip="Retry the latest failed stage." />
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Export">
+                <Grid Margin="12">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="Output File Name" />
+                    <TextBox Grid.Row="1" Margin="0,4,0,10" Text="episode-v1.mp4" />
+
+                    <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,0,0,10">
+                        <StackPanel Margin="0,0,12,0">
+                            <TextBlock Text="Resolution" />
+                            <ComboBox Width="160" SelectedIndex="0">
+                                <ComboBoxItem Content="1920x1080" />
+                                <ComboBoxItem Content="1280x720" />
+                            </ComboBox>
+                        </StackPanel>
+                        <StackPanel>
+                            <TextBlock Text="Frame Rate" />
+                            <ComboBox Width="120" SelectedIndex="0">
+                                <ComboBoxItem Content="24 fps" />
+                                <ComboBoxItem Content="30 fps" />
+                            </ComboBox>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <CheckBox Grid.Row="3" Content="Embed subtitles" IsChecked="True" Margin="0,0,0,10" />
+
+                    <Button Grid.Row="4" Content="Export MP4" HorizontalAlignment="Right" VerticalAlignment="Top" Width="140" Click="Export_Click"
+                            IsEnabled="{Binding CanExport}" ToolTip="Available after generation reaches render-ready state." />
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+        <StatusBar Grid.Row="3" Margin="0,8,0,0">
+            <StatusBarItem>
+                <TextBlock Text="Status:" FontWeight="SemiBold" />
+            </StatusBarItem>
+            <StatusBarItem>
+                <TextBlock Text="{Binding StatusMessage}" />
+            </StatusBarItem>
+            <Separator />
+            <StatusBarItem>
+                <TextBlock Text="{Binding SceneSummary}" />
+            </StatusBarItem>
+            <Separator />
+            <StatusBarItem>
+                <TextBlock Text="{Binding PipelineProgressText}" />
+            </StatusBarItem>
+        </StatusBar>
+    </Grid>
+</Window>
